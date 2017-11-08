@@ -35,6 +35,23 @@ package retrofit;
  * {@link retrofit.http.Multipart @Multipart} - RFC 2387-compliant multi-part data(多部分数据) with parts
  * specified by the {@link retrofit.http.Part @Part} parameter annotation.
  *
+ * Additional(额外的，附加的) static headers can be added for an endpoint using the {@link retrofit.http.Headers @Headers} method annotation.
+ * For per-request control over a header annotate a parameter with {@link retrofit.http.Header @Header}.
+ *
+ * By default, methods return a {@link retrofit.Call} which represents the HTTP request.
+ * The generic parameter of the call(call的泛型参数) is the response body type(回复的body类型) and will be converted by one of the
+ * {@link retrofit.Converter.Factory} instances.
+ * {@link ResponseBody} can also be used for a raw representation.
+ * {@link Void} can be used if you do not care about the body contents.
+ *
+ * For example:
+ * public interface CategoryService {
+ *   &#64;(@)POST("/category/{cat}")
+ *   Call&lt;List&lt;Item&gt;&gt; categoryList(@Path("cat") String a, @Query("page") int b);
+ * }
+ *
+ * Calling {@link #create(Class) create()} with {@code CategoryService.class} will validate(合法化) the
+ * annotations and create a new implementation of the service definition.
  */
 
 /**
@@ -42,6 +59,18 @@ package retrofit;
  * 经典概括--用URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作
  * 如何设计 RESTful API--REST风格的网络接口
  */
-public class Retrofit {
+public final class Retrofit {
 
+
+    /**
+     * 创建Retrofit实例
+     * Build a new {@link Retrofit}.
+     *
+     * Calling {@link #baseUrl} is required before calling {@link #build()}. All other methods
+     * are optional.
+     */
+    public static final class Builder {
+        private OkHttpClient client;
+        private BaseUrl baseUrl;
+    }
 }

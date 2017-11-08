@@ -1,4 +1,4 @@
-package com.story.whhsdk;
+package com.story.imagine;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
