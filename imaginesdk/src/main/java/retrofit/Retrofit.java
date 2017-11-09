@@ -54,6 +54,9 @@ package retrofit;
  * annotations and create a new implementation of the service definition.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp.OkHttpClient;
 
 /**
@@ -72,7 +75,11 @@ public final class Retrofit {
      * are optional.
      */
     public static final class Builder {
+        // OkHttp客户端
         private OkHttpClient client;
+        // 基础Url
         private BaseUrl baseUrl;
+        // 转换器工厂
+        private List<Converter.Factory> converterFactories = new ArrayList<>();
     }
 }
