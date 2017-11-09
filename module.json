@@ -1,0 +1,12 @@
+ {
+    "sdks": [
+        {
+            "path": "imaginesdk",
+            "name": ":ImagineSDK"
+        },
+        {
+            "path": "story",
+            "name": ":Story"
+        }
+    ]
+}

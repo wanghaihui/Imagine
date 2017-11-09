@@ -1,1 +1,35 @@
-include ':imagine', ':imaginesdk'
+import groovy.json.JsonSlurper
+
+HashMap<String, String> sdkMap = new HashMap<String, String>()
+
+def moduleFile = new File("${rootProject.projectDir}/module.json")
+if (!moduleFile.exists()) {
+    println "init module.json file at ${moduleFile.absolutePath}"
+    String moduleText = ''' {
+    "sdks": [
+        {
+            "path": "imaginesdk",
+            "name": ":ImagineSDK"
+        },
+        {
+            "path": "story",
+            "name": ":Story"
+        }
+    ]
+}'''
+
+    moduleFile.withWriter {
+        it.write(moduleText)
+    }
+}
+
+def modules = new JsonSlurper().parse(moduleFile)
+modules.sdks.each {
+    sdkMap.put(it.name, it.path)
+}
+
+sdkMap.keySet().each {
+    // Adds the given projects to the build
+    include it
+    project(it).projectDir = new File(sdkMap.get(it))
+}

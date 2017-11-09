@@ -54,6 +54,8 @@ package retrofit;
  * annotations and create a new implementation of the service definition.
  */
 
+import okhttp.OkHttpClient;
+
 /**
  * 何为RESTful--看Url就知道要什么，看http method就知道干什么，看http status code就知道结果如何--祖传烂代码，专克架构师
  * 经典概括--用URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作

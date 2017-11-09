@@ -1,0 +1,104 @@
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
+// 移除所有sdk
+def static void remove(String[] sdks) {
+    for (String sdk : sdks) {
+        removeSdk(sdk)
+    }
+}
+
+def static void removeSdk(String sdkName) {
+    // 解析sdk的路径
+    SdkMap sdk = getSdkByName(sdkName)
+    // 首先删除build.gradle模板
+    File buildFile = new File("${sdk.path}/build.gradle")
+    if (buildFile.exists() && buildFile.delete()) {
+        println "delete build.gradle file at: " + buildFile.absolutePath
+    }
+    // 删除第三方sdk下AndroidManifest-debug.xml
+    File debugXml = new File("${sdk.path}/AndroidManifest-debug.xml")
+    if (debugXml.exists() && debugXml.delete()) {
+        println "delete AndroidManifest-debug.xml file at: " + debugXml.absolutePath
+    }
+    // 将sdk module从module.json中移除
+    removeSdkInModuleFile(sdk);
+}
+
+def static SdkMap getSdkByName(String sdkName) {
+    SdkMap sdk = new SdkMap()
+    sdk.sdk = sdkName
+    if (sdkName.contains('_')) {
+        def arr = sdkName.split('_')
+        def thirdSdkDir = arr[0]
+        def thirdSdkSubDir = arr[1]
+        def subName = thirdSdkSubDir.replaceFirst(thirdSdkSubDir.charAt(0).toString(), Character.toUpperCase(thirdSdkSubDir.charAt(0).toString()))
+        sdk.path = 'third/' + "${thirdSdkDir}/${thirdSdkSubDir}"
+        sdk.name = ':sdk_' + thirdSdkDir + subName
+    } else {
+        sdk.path = 'third/' + "${sdkName}"
+        sdk.name = ':sdk_' + sdkName
+    }
+}
+
+def static removeSdkInModuleFile(SdkMap sdk) {
+    def jsonFile = new File('module.json')
+    def modules = new JsonSlurper().parse(jsonFile)
+    def sdks = []
+    modules.sdks.each {
+        sdks.add(new SdkMap(name: it.name, path: it.path, sdk: it.sdk))
+    }
+
+    SdkMap item2remove = null;
+    for (SdkMap sdkMap : sdks) {
+        if (sdk.name == sdkMap.name) {
+            item2remove = sdkMap
+        }
+    }
+    if (item2remove != null) {}
+    sdks.remove(item2remove)
+
+    def json2Write = JsonOutput.prettyPrint(JsonOutput.toJson(sdks: sdks.toArray()))
+    FileWriter jsonWriter = new FileWriter(jsonFile.absolutePath, false)
+    jsonWriter.write(json2Write)
+    jsonWriter.flush()
+    jsonWriter.close()
+}
+
+def static void removeAll() {
+    def jsonFile = new File('module.json')
+    def modules = new JsonSlurper().parse(jsonFile)
+    def sdks = []
+    def cleanCmd = "gradle "
+    def taskName = ":clean "
+    modules.sdks.each {
+        if (it.path == "imaginesdk" || it.path == "story") {
+            sdks.add(new SdkMap(name: it.name, path: it.path, sdk: it.sdk))
+        }
+        cleanCmd = cleanCmd + it.name + taskName
+    }
+
+    cleanCmd.execute().in.eachLine {
+        println it
+    }
+
+    def json2Write = JsonOutput.prettyPrint(JsonOutput.toJson(sdks: sdks.toArray()))
+    FileWriter jsonWriter = new FileWriter(jsonFile.absolutePath, false)
+    jsonWriter.write(json2Write)
+    jsonWriter.flush()
+    jsonWriter.close()
+}
+
+class SdkMap {
+    // sdk name
+    String sdk;
+    // module name
+    String name;
+    // sdk path
+    String path;
+}
+
+ext {
+    remove = this.&remove
+    removeAllSdks = this.&removeAll
+}

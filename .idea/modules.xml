@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Imagination.iml" filepath="$PROJECT_DIR$/Imagination.iml" />
-      <module fileurl="file://$PROJECT_DIR$/imagine/imagine.iml" filepath="$PROJECT_DIR$/imagine/imagine.iml" />
-      <module fileurl="file://$PROJECT_DIR$/imaginesdk/imaginesdk.iml" filepath="$PROJECT_DIR$/imaginesdk/imaginesdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Imagine.iml" filepath="$PROJECT_DIR$/Imagine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imaginesdk/ImagineSDK.iml" filepath="$PROJECT_DIR$/imaginesdk/ImagineSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/story/Story.iml" filepath="$PROJECT_DIR$/story/Story.iml" />
     </modules>
   </component>
 </project>

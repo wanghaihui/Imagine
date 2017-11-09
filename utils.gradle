@@ -1,0 +1,14 @@
+def Properties loadProperties(String path) {
+    Properties properties = new Properties()
+    File file = new File(path)
+    if (file.exists() && file.isFile() && file.canRead()) {
+        println "load properties file at: " + file.absolutePath
+        InputStream ism = file.newInputStream()
+        properties.load(ism)
+        ism.close()
+        return properties
+    } else {
+        println "properties file is not exist or is not a file"
+        return null
+    }
+}

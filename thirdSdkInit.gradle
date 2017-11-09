@@ -1,0 +1,15 @@
+
+// 初始化所有的sdk
+def void init(sdks) {
+    for (String sdkName : sdks) {
+        initSdk(sdkName)
+    }
+}
+
+def void initSdk(String sdkName) {
+
+}
+
+ext {
+    init = this.&init
+}

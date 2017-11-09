@@ -1,4 +1,4 @@
-package com.story.imagine;
+package com.story.story;
 
 import org.junit.Test;
 

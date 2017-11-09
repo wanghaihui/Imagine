@@ -1,4 +1,4 @@
-package com.story.imagine;
+package com.story.story;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
