@@ -17,10 +17,15 @@ import okhttp.ResponseBody;
 public interface Converter<F, T> {
     T convert(F value) throws IOException;
 
+    /**
+     * 自动是public
+     */
     abstract class Factory {
         /**
          * Create a {@link Converter} for converting an HTTP response body to {@code type} or null if it
          * cannot be handled by this factory.
+         *
+         * 通配符
          */
         public Converter<ResponseBody, ?> fromResponseBody(Type type, Annotation[] annotations) {
             return null;
@@ -29,6 +34,8 @@ public interface Converter<F, T> {
         /**
          * Create a {@link Converter} for converting {@code type} to an HTTP request body or null if it
          * cannot be handled by this factory.
+         *
+         * 通配符
          */
         public Converter<?, RequestBody> toRequestBody(Type type, Annotation[] annotations) {
             return null;

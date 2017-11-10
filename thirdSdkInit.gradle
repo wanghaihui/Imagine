@@ -1,3 +1,7 @@
+import groovy.json.JsonOutput
+import groovy.xml.XmlUtil
+import groovy.xml.StreamingMarkupBuilder
+import groovy.json.JsonSlurper
 
 // 初始化所有的sdk
 def void init(sdks) {
@@ -7,7 +11,101 @@ def void init(sdks) {
 }
 
 def void initSdk(String sdkName) {
+    println "init third sdk: ${sdkName}"
 
+    SdkMap sdk = getSdkByName(sdkName)
+
+    File thirdSdkDir = new File(sdk.path)
+    if (thirdSdkDir.exists() && thirdSdkDir.isDirectory()) {
+        // 首先复制build.gradle模板
+        File buildFile = new File("${sdk.path}/build.gradle")
+        if (!buildFile.exists() || !buildFile.text.contains('AndroidManifest-debug.xml')) {
+            copyFile("third-sdk-build.gradle.txt", buildFile.absolutePath)
+        } else {
+            println "build.gradle file exist at [${buildFile.absolutePath}]"
+        }
+
+        // 拷贝第三方sdk下的AndroidManifest.xml为AndroidManifest-debug.xml，并插入packageName属性
+        if (addPkg(sdk)) {
+            // 将sdk module信息写入module.json
+            putSdk2Module(sdk)
+        }
+    } else {
+        println "No third sdk or third subSdk named ${sdk.sdk} at location: ${sdk.path}"
+    }
+}
+
+def putSdk2Module(SdkMap sdk) {
+    def jsonFile = new File('module.json')
+    def modules = new JsonSlurper().parse(jsonFile)
+    def sdks = []
+
+    modules.sdks.each {
+        sdks.add(new SdkMap(name: it.name, path: it.path, sdk: it.sdk))
+    }
+
+    def needAdd = true
+    for (SdkMap sdkMap : sdks) {
+        if (sdk.name == sdkMap.name) {
+            needAdd = false
+        }
+    }
+
+    if (needAdd) {
+        sdks.add(sdk)
+    }
+
+    def json2Write = JsonOutput.prettyPrint(JsonOutput.toJson(sdks: sdks.toArray()))
+    FileWriter jsonWriter = new FileWriter(jsonFile.absolutePath, false)
+    jsonWriter.write(json2Write)
+    jsonWriter.flush()
+    jsonWriter.close()
+}
+
+def boolean addPkg(SdkMap sdk) {
+    def manifestPath = "${sdk.path}/AndroidManifest.xml"
+    def debugManifestPath = "${sdk.path}/AndroidManifest-debug.xml"
+    try {
+        rootProject.copyFile(manifestPath, debugManifestPath)
+
+        def xmlFile = new File(debugManifestPath)
+        def appXml = new XmlSlurper().parse(xmlFile)
+
+        appXml.@package = "com.story.imaginesdk." + sdk.sdk
+
+        XmlUtil.serialize(new StreamingMarkupBuilder().bind {
+            mkp.yield appXml
+        }, new FileOutputStream(xmlFile))
+    } catch (Exception e) {
+        println e.toString()
+    }
+    return new File(debugManifestPath).exists()
+}
+
+def SdkMap getSdkByName(String sdkName) {
+    SdkMap sdk = new SdkMap()
+    sdk.sdk = sdkName
+    if (sdkName.contains('_')) {
+        def arr = sdkName.split('_')
+        def thirdSdkDir = arr[0]
+        def thirdSdkSubDir = arr[1]
+        def subName = thirdSdkSubDir.replaceFirst(thirdSdkSubDir.charAt(0).toString(), Character.toUpperCase(thirdSdkSubDir.charAt(0).toString()))
+        sdk.path = 'third/' + "${thirdSdkDir}/${thirdSdkSubDir}"
+        sdk.name = ':sdk_' + thirdSdkDir + subName
+    } else {
+        sdk.path = 'third/' + "${sdkName}"
+        sdk.name = ':sdk_' + sdkName
+    }
+    return sdk
+}
+
+class SdkMap {
+    // sdk name
+    String sdk;
+    // module name
+    String name;
+    // sdk path
+    String path;
 }
 
 ext {

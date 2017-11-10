@@ -56,6 +56,7 @@ package retrofit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import okhttp.OkHttpClient;
 
@@ -65,7 +66,6 @@ import okhttp.OkHttpClient;
  * 如何设计 RESTful API--REST风格的网络接口
  */
 public final class Retrofit {
-
 
     /**
      * 创建Retrofit实例
@@ -81,5 +81,10 @@ public final class Retrofit {
         private BaseUrl baseUrl;
         // 转换器工厂
         private List<Converter.Factory> converterFactories = new ArrayList<>();
+        // 适配器工厂
+        private List<CallAdapter.Factory> adapterFactories = new ArrayList<>();
+        // 线程执行器
+        // An object that executes submitted {@link Runnable} tasks
+        private Executor callbackExecutor;
     }
 }

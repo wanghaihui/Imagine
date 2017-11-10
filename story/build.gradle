@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
     defaultConfig {
-        applicationId "com.story.whhsdk"
-        minSdkVersion 15
-        targetSdkVersion 26
+        applicationId "com.story"
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

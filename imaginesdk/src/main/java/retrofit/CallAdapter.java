@@ -1,5 +1,8 @@
 package retrofit;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
 /**
  * Call适配器
  * Adapts a {@link Call} into the type of {@code T}.
@@ -14,4 +17,23 @@ public interface CallAdapter<T> {
      * Note that this is typically not the same type as the {@code returnType} provided to
      * this call adapter's factory.
      */
+    Type responseType();
+
+    /** Returns an instance of the {@code T} which adapts the execution of {@code call}. */
+    /**
+     * 泛型方法--泛型参数列表置于返回值之前
+     */
+    <R> T adapt(Call<R> call);
+
+    /**
+     * 自动是public
+     */
+    interface Factory {
+        /**
+         * 通配符
+         * Returns a call adapter for interface methods that return {@code returnType}, or null if this
+         * factory doesn't adapt that type.
+         */
+        CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit);
+    }
 }

@@ -1,12 +1,19 @@
- {
+{
     "sdks": [
         {
+            "sdk": null,
             "path": "imaginesdk",
             "name": ":ImagineSDK"
         },
         {
+            "sdk": null,
             "path": "story",
             "name": ":Story"
+        },
+        {
+            "sdk": "mipush",
+            "path": "third/mipush",
+            "name": ":sdk_mipush"
         }
     ]
 }

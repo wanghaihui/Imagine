@@ -2,13 +2,13 @@ import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
 // 移除所有sdk
-def static void remove(String[] sdks) {
+def void remove(String[] sdks) {
     for (String sdk : sdks) {
         removeSdk(sdk)
     }
 }
 
-def static void removeSdk(String sdkName) {
+def void removeSdk(String sdkName) {
     // 解析sdk的路径
     SdkMap sdk = getSdkByName(sdkName)
     // 首先删除build.gradle模板
@@ -25,7 +25,7 @@ def static void removeSdk(String sdkName) {
     removeSdkInModuleFile(sdk);
 }
 
-def static SdkMap getSdkByName(String sdkName) {
+def SdkMap getSdkByName(String sdkName) {
     SdkMap sdk = new SdkMap()
     sdk.sdk = sdkName
     if (sdkName.contains('_')) {
@@ -39,9 +39,10 @@ def static SdkMap getSdkByName(String sdkName) {
         sdk.path = 'third/' + "${sdkName}"
         sdk.name = ':sdk_' + sdkName
     }
+    return sdk
 }
 
-def static removeSdkInModuleFile(SdkMap sdk) {
+def removeSdkInModuleFile(SdkMap sdk) {
     def jsonFile = new File('module.json')
     def modules = new JsonSlurper().parse(jsonFile)
     def sdks = []
@@ -65,7 +66,7 @@ def static removeSdkInModuleFile(SdkMap sdk) {
     jsonWriter.close()
 }
 
-def static void removeAll() {
+def void removeAll() {
     def jsonFile = new File('module.json')
     def modules = new JsonSlurper().parse(jsonFile)
     def sdks = []

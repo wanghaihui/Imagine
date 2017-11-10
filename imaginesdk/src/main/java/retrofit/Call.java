@@ -15,8 +15,12 @@ import java.io.IOException;
  * working as designed(根据设计，这是可以工作的).
  */
 public interface Call<T> extends Cloneable {
+    // 同步--所以直接返回
     Response<T> execute() throws IOException;
+    // 异步--所以传入回调
     void enqueue(CallBack<T> callBack);
+    // 任何时候都可以取消
     void cancel();
-    Call <T> clone();
+    // 具备拷贝功能--调用的多次轮询以及失败后重试
+    Call<T> clone();
 }

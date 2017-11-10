@@ -69,7 +69,7 @@ public final class HttpUrl {
             if (null == username) {
                 throw new IllegalArgumentException("username == null");
             }
-            this.encodedUsername = canonicalize(username, USERNAME_ENCODE_SET, false, false, false);
+            // this.encodedUsername = canonicalize(username, USERNAME_ENCODE_SET, false, false, false);
             return this;
         }
     }

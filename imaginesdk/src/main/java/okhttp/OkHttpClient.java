@@ -1,7 +1,7 @@
 package okhttp;
 
 /**
- * Created by tuyoo on 2017/11/9.
+ * okhttp-2.6.0
  */
 
 public class OkHttpClient {

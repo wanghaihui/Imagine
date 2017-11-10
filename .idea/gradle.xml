@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/imaginesdk" />
             <option value="$PROJECT_DIR$/story" />
+            <option value="$PROJECT_DIR$/third/mipush" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

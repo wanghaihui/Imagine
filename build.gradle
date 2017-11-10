@@ -18,6 +18,13 @@ allprojects {
     }
 }
 
+rootProject.allprojects.each { project ->
+    project.ext.compileSdkVer = 26
+    project.ext.buildToolsVer = "26.0.2"
+    project.ext.minSdkVer = 15
+    project.ext.targetSdkVer = 26
+}
+
 rootProject.apply(from: 'utils.gradle', to: project)
 rootProject.apply(from: 'thirdSdkRemove.gradle', to: project)
 rootProject.apply(from: 'thirdSdkInit.gradle', to: project)
@@ -56,5 +63,6 @@ task initdist() {
 
         removeAllSdks()
         init(allSdks)
+        // refreshPkgName('./story/src/com/story/MainActivity.java', properties.get('package'))
     }
 }
