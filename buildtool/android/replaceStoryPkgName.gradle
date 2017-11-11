@@ -1,0 +1,8 @@
+
+def void refreshPkgName(String javaFilePath, String packageName) {
+
+}
+
+ext {
+    refreshPkgName = this.&refreshPkgName
+}

@@ -18,6 +18,51 @@ allprojects {
     }
 }
 
+rootProject.allprojects.each { project ->
+    project.ext.compileSdkVer = 26
+    project.ext.buildToolsVer = "26.0.2"
+    project.ext.minSdkVer = 15
+    project.ext.targetSdkVer = 26
+}
+
+rootProject.apply(from: 'utils.gradle', to: project)
+rootProject.apply(from: 'thirdSdkRemove.gradle', to: project)
+rootProject.apply(from: 'thirdSdkInit.gradle', to: project)
+
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task initdist() {
+    doLast {
+        String[] KEY_SDKS = ['compile']
+        String SPLIT_CHAR = ','
+
+        String local = "buildtool/android/properties/local.properties"
+        Properties properties = loadProperties(local)
+
+        List<String> allSdks = new ArrayList<>()
+        for (String key : KEY_SDKS) {
+            String sdks = properties.get(key)
+            println "properties: ${key} = ${sdks}"
+            if (sdks != null && !sdks.isEmpty()) {
+                if (sdks.contains(SPLIT_CHAR)) {
+                    def sdkArr = sdks.split(SPLIT_CHAR)
+                    for (String sdk : sdkArr) {
+                        if (!allSdks.contains(sdk)) {
+                            allSdks.add(sdk)
+                        }
+                    }
+                } else {
+                    if (!allSdks.contains(sdks)) {
+                        allSdks.add(sdks)
+                    }
+                }
+            }
+        }
+
+        removeAllSdks()
+        init(allSdks)
+        // refreshPkgName('./story/src/com/story/MainActivity.java', properties.get('package'))
+    }
 }

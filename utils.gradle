@@ -1,0 +1,39 @@
+
+def Properties loadProperties(String path) {
+    Properties properties = new Properties()
+    File file = new File(path)
+    if (file.exists() && file.isFile() && file.canRead()) {
+        println "load properties file at: " + file.absolutePath
+        InputStream ism = file.newInputStream()
+        properties.load(ism)
+        ism.close()
+        return properties
+    } else {
+        println "properties file is not exist or is not a file"
+        return null
+    }
+}
+
+def copyFile(String srcFile, String dstFile) {
+    File src = new File(srcFile)
+    File dst = new File(dstFile)
+    if (src.isFile() && src.exists()) {
+        dst.getParentFile().mkdirs()
+        // 利用OutputStream的<<操作符重载，完成从InputStream到OutputStream的输出
+        src.withInputStream { InputStream is ->
+            dst.withOutputStream { OutputStream os ->
+                os << is
+            }
+        }
+        println "file copied from $srcFile to $dstFile"
+    } else {
+        println "file error $srcFile does not exist or is not a file"
+    }
+    return dst;
+}
+
+// 将函数设置到extra的属性中去，这样加载此gradle文件的project就能调用此文件中定义的函数
+ext {
+    loadProperties = this.&loadProperties
+    copyFile = this.&copyFile
+}

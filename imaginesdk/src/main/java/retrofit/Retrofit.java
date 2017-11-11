@@ -54,13 +54,18 @@ package retrofit;
  * annotations and create a new implementation of the service definition.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executor;
+
+import okhttp.OkHttpClient;
+
 /**
  * 何为RESTful--看Url就知道要什么，看http method就知道干什么，看http status code就知道结果如何--祖传烂代码，专克架构师
  * 经典概括--用URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作
  * 如何设计 RESTful API--REST风格的网络接口
  */
 public final class Retrofit {
-
 
     /**
      * 创建Retrofit实例
@@ -70,7 +75,16 @@ public final class Retrofit {
      * are optional.
      */
     public static final class Builder {
+        // OkHttp客户端
         private OkHttpClient client;
+        // 基础Url
         private BaseUrl baseUrl;
+        // 转换器工厂
+        private List<Converter.Factory> converterFactories = new ArrayList<>();
+        // 适配器工厂
+        private List<CallAdapter.Factory> adapterFactories = new ArrayList<>();
+        // 线程执行器
+        // An object that executes submitted {@link Runnable} tasks
+        private Executor callbackExecutor;
     }
 }
