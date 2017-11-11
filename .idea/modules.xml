@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Imagination.iml" filepath="$PROJECT_DIR$/Imagination.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Imagine.iml" filepath="$PROJECT_DIR$/Imagine.iml" />
       <module fileurl="file://$PROJECT_DIR$/imagine/imagine.iml" filepath="$PROJECT_DIR$/imagine/imagine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imagine/imagine.iml" filepath="$PROJECT_DIR$/imagine/imagine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imaginesdk/imaginesdk.iml" filepath="$PROJECT_DIR$/imaginesdk/imaginesdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/imaginesdk/imaginesdk.iml" filepath="$PROJECT_DIR$/imaginesdk/imaginesdk.iml" />
     </modules>
   </component>
