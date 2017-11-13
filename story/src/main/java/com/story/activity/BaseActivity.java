@@ -1,8 +1,11 @@
 package com.story.activity;
 
+import android.support.v7.app.AppCompatActivity;
+
 /**
- * Created by tuyoo on 2017/11/13.
+ * 基础Activity
  */
 
-public class BaseActivity {
+public abstract class BaseActivity extends AppCompatActivity {
+
 }

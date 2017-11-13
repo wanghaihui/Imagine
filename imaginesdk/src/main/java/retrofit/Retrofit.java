@@ -86,5 +86,23 @@ public final class Retrofit {
         // 线程执行器
         // An object that executes submitted {@link Runnable} tasks
         private Executor callbackExecutor;
+        // 是否提前验证
+        private boolean validateEagerly;
+
+        public Builder() {
+            // Add the built-in(内置的) converter factory(转换器工厂) first.
+            // This prevents overriding its behavior(防止重写它的行为) but also ensures correct behavior(保证正确的行为) when using converters that consume all types
+            converterFactories.add(new BuiltInConverters());
+        }
+
+        /** The HTTP client used for requests. */
+        public Builder client(OkHttpClient client) {
+            this.client = Utils.checkNotNull(client, "client == null");
+            return this;
+        }
+
+        public Builder baseUrl(String baseUrl) {
+
+        }
     }
 }
