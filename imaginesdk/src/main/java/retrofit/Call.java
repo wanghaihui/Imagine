@@ -18,7 +18,7 @@ public interface Call<T> extends Cloneable {
     // 同步--所以直接返回
     Response<T> execute() throws IOException;
     // 异步--所以传入回调
-    void enqueue(CallBack<T> callBack);
+    void enqueue(Callback<T> callBack);
     // 任何时候都可以取消
     void cancel();
     // 具备拷贝功能--调用的多次轮询以及失败后重试

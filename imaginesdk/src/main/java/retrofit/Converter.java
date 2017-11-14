@@ -15,6 +15,7 @@ import okhttp.ResponseBody;
  */
 
 public interface Converter<F, T> {
+
     T convert(F value) throws IOException;
 
     /**
