@@ -50,7 +50,16 @@ BitmapShader(Bitmap bitmap, Shader.TileMode tileX, Shader.TileMode tileY)
 ComposeShader--混合着色器--就是把两个Shader一起使用
 ComposeShader(Shader shaderA, Shader shaderB, PorterDuff.Mode mode)
 PorterDuff.Mode--两个Shader的叠加模式
-PorterDuff.Mode是用来指定两个图像共同绘制时的颜色策略的--是
+PorterDuff.Mode是用来指定两个图像共同绘制时的颜色策略的--是一个enum，不同的Mode可以指定不同的策略
+颜色策略--把源图像绘制到目标图像处时，应该怎样确定二者结合后的颜色
+对于ComposeShader(shaderA, shaderB, mode)--这个方法就是指应该怎样把shaderB绘制在shaderA上来得到一个结合后的Shader
+
+Paint--可以设置ColorFilter，来对颜色进行第二层处理
+Paint.setColorFilter(ColorFilter colorFilter)
+ColorFilter--为绘制设置颜色过滤--为绘制的内容设置一个统一的过滤策略，然后Canvas.drawXXX()方法会对每个像素都进行过滤后再绘制出来
+ColorFilter并不直接使用，而是使用它的子类--共有三个子类--LightingColorFilter--PorterDuffColorFilter--ColorMatrixColorFilter
+LightingColorFilter--模拟简单的光照效果
+
 
 
 
