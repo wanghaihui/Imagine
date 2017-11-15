@@ -1,8 +1,16 @@
 package okhttp;
 
+import java.io.Closeable;
+import java.io.IOException;
+
 /**
- * Created by tuyoo on 2017/11/9.
+ * Response体
  */
 
-public class ResponseBody {
+public abstract class ResponseBody implements Closeable {
+
+    @Override
+    public void close() throws IOException {
+
+    }
 }

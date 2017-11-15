@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 /**
- * Call适配器
+ * Call适配器--将一个Call适配成T
  * Adapts a {@link Call} into the type of {@code T}.
  */
 

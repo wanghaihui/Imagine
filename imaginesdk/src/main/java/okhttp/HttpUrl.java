@@ -31,6 +31,11 @@ public final class HttpUrl {
     static final String USERNAME_ENCODE_SET = " \"':;<=>@[]^`{}|/\\?#";
     static final String PASSWORD_ENCODE_SET = " \"':;<=>@[]^`{}|/\\?#";
 
+    public static HttpUrl parse(String url) {
+        return new HttpUrl();
+    }
+
+
     public static class Builder {
         String scheme;
         // 编码的username

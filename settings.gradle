@@ -23,6 +23,7 @@ if (!moduleFile.exists()) {
     }
 }
 
+// Json解析
 def modules = new JsonSlurper().parse(moduleFile)
 modules.sdks.each {
     sdkMap.put(it.name, it.path)

@@ -13,7 +13,7 @@ package retrofit;
  * @param <T> expected response type
  */
 
-public interface CallBack<T> {
+public interface Callback<T> {
 
     /** Successful HTTP response. */
     void onResponse(Response<T> response, Retrofit retrofit);
